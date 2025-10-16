@@ -1,0 +1,1 @@
+export function Input(props: any){return <input {...props} className={'w-full border rounded-xl px-2 py-1 '+(props.className||'')} />}

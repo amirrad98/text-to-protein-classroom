@@ -1,0 +1,1 @@
+export function Label({ children, ...props }: any){return <label {...props} className="text-xs text-gray-600">{children}</label>}
