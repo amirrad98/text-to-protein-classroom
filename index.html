@@ -1,0 +1,90 @@
+<!DOCTYPE html><!doctype html>
+
+<html lang="en"><html lang="en">
+
+<head>  <head>
+
+    <meta charset="UTF-8">    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <title>Text to Protein - Classroom Demo</title>    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="styles.css">    <title>Text to Protein - Classroom Demo</title>
+
+    <script src="https://unpkg.com/three@0.180.0/build/three.min.js"></script>  </head>
+
+    <script src="https://unpkg.com/three@0.180.0/examples/js/controls/OrbitControls.js"></script>  <body>
+
+</head>    <div id="root"></div>
+
+<body>    <script type="module" src="/src/main.tsx"></script>
+
+    <div class="container">  </body>
+
+        <header class="header"></html>
+            <div class="header-content">
+                <h1>🧬 Text to Protein</h1>
+                <p>Transform text into 3D protein structures</p>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="input-section">
+                <div class="card">
+                    <h2>Generate Protein</h2>
+                    <div class="form-group">
+                        <label for="textInput">Enter text to convert:</label>
+                        <textarea 
+                            id="textInput" 
+                            placeholder="Type your text here..." 
+                            rows="4"
+                        >Hello World</textarea>
+                    </div>
+                    <button id="generateBtn" class="btn btn-primary">
+                        Generate Protein
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h3>Generated Sequence</h3>
+                    <div id="proteinSequence" class="sequence-display">
+                        Click "Generate Protein" to see the sequence
+                    </div>
+                </div>
+            </div>
+
+            <div class="visualization-section">
+                <div class="card">
+                    <h3>3D Protein Structure</h3>
+                    <div id="proteinViewer" class="viewer"></div>
+                    <div class="controls">
+                        <button id="rotateBtn" class="btn btn-secondary">Auto Rotate</button>
+                        <button id="resetBtn" class="btn btn-secondary">Reset View</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tests-section">
+                <div class="card">
+                    <h3>Test Cases</h3>
+                    <div class="test-grid">
+                        <button class="test-btn" data-text="Hello">Hello</button>
+                        <button class="test-btn" data-text="Science">Science</button>
+                        <button class="test-btn" data-text="DNA">DNA</button>
+                        <button class="test-btn" data-text="Protein">Protein</button>
+                        <button class="test-btn" data-text="Biology">Biology</button>
+                        <button class="test-btn" data-text="Chemistry">Chemistry</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with ❤️ for educational purposes</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
