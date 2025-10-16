@@ -2,11 +2,21 @@ import { useMemo, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Line } from '@react-three/drei'
 import * as THREE from 'three'
-import { Card, CardContent, CardHeader } from './components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card'
 import { Button } from './components/ui/button'
 import { Input } from './components/ui/input'
 import { Textarea } from './components/ui/textarea'
 import { Label } from './components/ui/label'
+import { 
+  Wand2, 
+  Filter, 
+  FlaskConical, 
+  RotateCcw, 
+  Cube,
+  Zap,
+  TestTube2,
+  Beaker
+} from 'lucide-react'
 
 export type Row = { id: string; seq: string; fold: number; pred: number; lab?: number }
 
@@ -20,57 +30,6 @@ const DEFAULT_ICON_SIZE = 16
 function safeSize(v?: number | string, fallback = DEFAULT_ICON_SIZE){
   const n = typeof v === 'string' ? Number(v) : v
   return Number.isFinite(n as number) && (n as number) > 0 ? (n as number) : fallback
-}
-
-function IconWand({ size = DEFAULT_ICON_SIZE }:{size?:number|string}){
-  const s = safeSize(size)
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M2 22 L10 14" />
-      <path d="M15 4 L12 7" />
-      <path d="M14 7 L17 10" />
-      <path d="M5 19 L8 22" />
-    </svg>
-  )
-}
-function IconFilter({ size = DEFAULT_ICON_SIZE }:{size?:number|string}){
-  const s = safeSize(size)
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 4 L21 4" />
-      <path d="M7 10 L17 10" />
-      <path d="M10 16 L14 16" />
-    </svg>
-  )
-}
-function IconFlask({ size = DEFAULT_ICON_SIZE }:{size?:number|string}){
-  const s = safeSize(size)
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M9 2 L9 7 L5 13 A6 6 0 0 0 19 13 L15 7 L15 2" />
-      <path d="M6 13 L18 13" />
-    </svg>
-  )
-}
-function IconRotate({ size = DEFAULT_ICON_SIZE }:{size?:number|string}){
-  const s = safeSize(size)
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M3 12 A9 9 0 0 1 21 12" />
-      <path d="M21 12 L18 9" />
-      <path d="M21 12 L18 15" />
-    </svg>
-  )
-}
-function IconCube({ size = 14 }:{size?:number|string}){
-  const s = safeSize(size)
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M12 2 L20 7 L12 12 L4 7 Z" />
-      <path d="M4 7 L4 17 L12 22 L12 12" />
-      <path d="M20 7 L20 17 L12 22" />
-    </svg>
-  )
 }
 
 // 2) RNG and core functions
@@ -236,7 +195,7 @@ function TestsPanel(){
       ok('mulberry32 deterministic first draw matches when re-seeded', a1 === a2)
 
       // safeSize cases
-      const sizes = [undefined as any, 0 as any, -5 as any, '20' as any, 'bad' as any].map(v=>safeSize(v))
+      const sizes = [undefined, 0, -5, '20', 'bad'].map(v=>safeSize(v as any))
       const expect = [16,16,16,20,16]
       ok('safeSize returns sane widths for [undefined, 0, -5, "20", "bad"]', sizes.every((v,i)=>v===expect[i]))
 
@@ -249,28 +208,43 @@ function TestsPanel(){
       ok('toyActivity is deterministic for same inputs', t1 === t2)
 
       setLines(out)
-    } catch(e: any){
-      setLines([`FAIL - exception: ${e?.message||String(e)}`])
+    } catch(e: unknown){
+      setLines([`FAIL - exception: ${e instanceof Error ? e.message : String(e)}`])
     }
   }
 
   const allPass = lines.length>0 && lines.every(l=>l.startsWith('PASS'))
 
   return (
-    <Card className="mt-3">
+    <Card className="mt-6">
       <CardHeader>
-        <div className="flex items-center gap-2"><IconFilter /> <b>Tests panel</b></div>
+        <CardTitle className="flex items-center gap-2">
+          <TestTube2 className="h-5 w-5" />
+          Tests Panel
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-2 mb-2">
-          <Button onClick={run}><IconWand /> Run tests</Button>
+        <div className="flex items-center gap-3 mb-4">
+          <Button onClick={run} variant="outline">
+            <Zap className="h-4 w-4" />
+            Run Tests
+          </Button>
           {lines.length>0 && (
-            <span className={allPass? 'text-green-600' : 'text-red-600'}>{allPass? 'All tests passed' : 'Some tests failed'}</span>
+            <span className={`text-sm font-medium ${allPass ? 'text-green-600' : 'text-red-600'}`}>
+              {allPass ? 'All tests passed' : 'Some tests failed'}
+            </span>
           )}
         </div>
-        <ul className="text-sm space-y-1">
-          {lines.map((l,i)=>(<li key={i}>{l}</li>))}
-        </ul>
+        <div className="space-y-1 text-sm">
+          {lines.map((l,i)=>(
+            <div 
+              key={i} 
+              className={`p-2 rounded-md ${l.startsWith('PASS') ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}
+            >
+              {l}
+            </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   )
@@ -314,142 +288,246 @@ export default function App(){
   function reset(){ setRows([]); setSel(null) }
 
   return (
-    <div className="p-4 max-w-6xl mx-auto font-sans">
-      <h1 className="text-xl font-bold mb-3 flex items-center gap-2"><IconCube /> Text to Protein - classroom demo</h1>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+            <Cube className="h-8 w-8 text-blue-600" />
+            Text to Protein
+            <span className="text-lg font-normal text-gray-600">- Classroom Demo</span>
+          </h1>
+        </header>
 
-      <div className="grid md:grid-cols-2 gap-3">
-        <Card>
-          <CardHeader><b>Controls</b></CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div>
-                <Label>Plain English prompt</Label>
-                <Textarea value={prompt} onChange={(e: any)=>setPrompt(e.target.value)} rows={3} />
+        <div className="grid lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Wand2 className="h-5 w-5" />
+                Controls
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="prompt">Plain English Prompt</Label>
+                <Textarea 
+                  id="prompt"
+                  value={prompt} 
+                  onChange={(e)=>setPrompt(e.target.value)} 
+                  rows={3}
+                  placeholder="Describe the protein you want to generate..."
+                  className="resize-none"
+                />
               </div>
-              <div className="grid grid-cols-3 gap-2">
-                <div>
-                  <Label>Number of candidates</Label>
-                  <Input type="number" value={count} min={1} max={64} onChange={(e: any)=>setCount(Number(e.target.value)||0)} />
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="count">Candidates</Label>
+                  <Input 
+                    id="count"
+                    type="number" 
+                    value={count} 
+                    min={1} 
+                    max={64} 
+                    onChange={(e)=>setCount(Number(e.target.value)||0)} 
+                  />
                 </div>
-                <div>
-                  <Label>Length in amino acids</Label>
-                  <Input type="number" value={lengthAA} min={5} max={200} onChange={(e: any)=>setLengthAA(Number(e.target.value)||0)} />
+                <div className="space-y-2">
+                  <Label htmlFor="length">Length (AA)</Label>
+                  <Input 
+                    id="length"
+                    type="number" 
+                    value={lengthAA} 
+                    min={5} 
+                    max={200} 
+                    onChange={(e)=>setLengthAA(Number(e.target.value)||0)} 
+                  />
                 </div>
-                <div>
-                  <Label>Seed for reproducible runs</Label>
-                  <Input type="number" value={seed} onChange={(e: any)=>setSeed(Number(e.target.value)||0)} />
+                <div className="space-y-2">
+                  <Label htmlFor="seed">Seed</Label>
+                  <Input 
+                    id="seed"
+                    type="number" 
+                    value={seed} 
+                    onChange={(e)=>setSeed(Number(e.target.value)||0)} 
+                  />
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <Button onClick={generate}><IconWand /> Generate</Button>
-                <Button onClick={screen}><IconFilter /> Screen</Button>
-                <Button onClick={lab}><IconFlask /> Lab test</Button>
-                <Button onClick={reset}><IconRotate /> Reset</Button>
+              <div className="flex flex-wrap gap-3">
+                <Button onClick={generate} className="gap-2">
+                  <Wand2 className="h-4 w-4" />
+                  Generate
+                </Button>
+                <Button onClick={screen} variant="outline" className="gap-2">
+                  <Filter className="h-4 w-4" />
+                  Screen
+                </Button>
+                <Button onClick={lab} variant="outline" className="gap-2">
+                  <FlaskConical className="h-4 w-4" />
+                  Lab Test
+                </Button>
+                <Button onClick={reset} variant="outline" className="gap-2">
+                  <RotateCcw className="h-4 w-4" />
+                  Reset
+                </Button>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader><b>Quick setup</b></CardHeader>
-          <CardContent>
-            <ol className="list-decimal pl-5 text-sm space-y-1">
-              <li>npm create vite@latest text-to-protein -- --template react-ts</li>
-              <li>cd text-to-protein</li>
-              <li>npm i @react-three/fiber @react-three/drei three</li>
-              <li>mkdir -p src/components/ui</li>
-              <li>Paste UI shims and this App.tsx</li>
-              <li>npm run dev and open http://localhost:5173</li>
-            </ol>
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Beaker className="h-5 w-5" />
+                Quick Setup
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ol className="list-decimal pl-5 text-sm space-y-2 text-gray-700">
+                <li>npm create vite@latest text-to-protein -- --template react-ts</li>
+                <li>cd text-to-protein</li>
+                <li>npm i @react-three/fiber @react-three/drei three</li>
+                <li>mkdir -p src/components/ui</li>
+                <li>Paste UI shims and this App.tsx</li>
+                <li>npm run dev and open http://localhost:5173</li>
+              </ol>
+            </CardContent>
+          </Card>
 
-        <Card className="md:col-span-2">
-          <CardHeader><b>Results</b></CardHeader>
-          <CardContent>
-            {rows.length === 0 ? (
-              <div className="text-sm text-gray-600">Click Generate to create candidates. Use Screen to score and sort. Use Lab test to simulate wet lab results. Click a sequence or View to open 3D.</div>
-            ) : (
-              <div className="overflow-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left border-b">
-                      <th className="py-2 pr-2">#</th>
-                      <th className="py-2 pr-2">Sequence</th>
-                      <th className="py-2 pr-2">Fold score</th>
-                      <th className="py-2 pr-2">Pred activity</th>
-                      <th className="py-2 pr-2">Lab percent</th>
-                      <th className="py-2 pr-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rows.map((r,idx)=> (
-                      <tr key={r.id} className="border-b hover:bg-gray-50">
-                        <td className="py-2 pr-2">{idx+1}</td>
-                        <td className="py-2 pr-2">
-                          <button title="Click to show 3D" className="underline" onClick={()=>setSel(r)}>{r.seq}</button>
-                        </td>
-                        <td className="py-2 pr-2 w-40">
-                          <div className="flex items-center gap-2">
-                            <span className="w-10 text-right">{r.fold.toFixed(1)}</span>
-                            <div className="flex-1"><MiniBar value={r.fold} max={100} /></div>
-                          </div>
-                        </td>
-                        <td className="py-2 pr-2 w-44">
-                          <div className="flex items-center gap-2">
-                            <span className="w-10 text-right">{r.pred.toFixed(1)}</span>
-                            <div className="flex-1"><MiniBar value={r.pred} max={160} /></div>
-                          </div>
-                        </td>
-                        <td className="py-2 pr-2 w-44">
-                          {typeof r.lab === 'number' ? (
-                            <div className="flex items-center gap-2">
-                              <span className="w-10 text-right">{r.lab.toFixed(1)}</span>
-                              <div className="flex-1"><MiniBar value={r.lab} max={160} /></div>
-                            </div>
-                          ) : <span className="text-gray-400">-</span>}
-                        </td>
-                        <td className="py-2 pr-2"><Button onClick={()=>setSel(r)}>View</Button></td>
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Results</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {rows.length === 0 ? (
+                <div className="text-center py-12 text-gray-500">
+                  <div className="mb-4">
+                    <Cube className="h-12 w-12 mx-auto text-gray-300" />
+                  </div>
+                  <p className="text-lg font-medium mb-2">No sequences generated yet</p>
+                  <p className="text-sm">Click Generate to create candidates, then use Screen to score and sort them.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">#</th>
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">Sequence</th>
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">Fold Score</th>
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">Predicted Activity</th>
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">Lab Result</th>
+                        <th className="text-left py-3 px-2 font-medium text-gray-900">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+                    </thead>
+                    <tbody>
+                      {rows.map((r,idx)=> (
+                        <tr key={r.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                          <td className="py-3 px-2 text-sm font-medium text-gray-900">{idx+1}</td>
+                          <td className="py-3 px-2">
+                            <button 
+                              title="Click to show 3D structure" 
+                              className="font-mono text-sm bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors" 
+                              onClick={()=>setSel(r)}
+                            >
+                              {r.seq}
+                            </button>
+                          </td>
+                          <td className="py-3 px-2 w-40">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium w-12 text-right">{r.fold.toFixed(1)}</span>
+                              <div className="flex-1"><MiniBar value={r.fold} max={100} /></div>
+                            </div>
+                          </td>
+                          <td className="py-3 px-2 w-44">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium w-12 text-right">{r.pred.toFixed(1)}</span>
+                              <div className="flex-1"><MiniBar value={r.pred} max={160} /></div>
+                            </div>
+                          </td>
+                          <td className="py-3 px-2 w-44">
+                            {typeof r.lab === 'number' ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-medium w-12 text-right">{r.lab.toFixed(1)}</span>
+                                <div className="flex-1"><MiniBar value={r.lab} max={160} /></div>
+                              </div>
+                            ) : (
+                              <span className="text-gray-400 text-sm">-</span>
+                            )}
+                          </td>
+                          <td className="py-3 px-2">
+                            <Button size="sm" variant="outline" onClick={()=>setSel(r)}>
+                              View 3D
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader><b>3D viewer</b></CardHeader>
-          <CardContent>
-            {!sel ? (
-              <div className="text-sm text-gray-600">Select a sequence to view a toy backbone. Colors: hydrophobic black, basic blue, acidic red, other green.</div>
-            ) : (
-              <div style={{ height: 360 }}>
-                <Viewer seq={sel.seq} seed={seed} />
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>3D Viewer</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {!sel ? (
+                <div className="text-center py-12 text-gray-500">
+                  <div className="mb-4">
+                    <Cube className="h-12 w-12 mx-auto text-gray-300" />
+                  </div>
+                  <p className="font-medium mb-2">No sequence selected</p>
+                  <p className="text-sm">Click on a sequence to view its 3D structure.</p>
+                  <p className="text-xs mt-2 text-gray-400">
+                    Colors: hydrophobic (black), basic (blue), acidic (red), other (green)
+                  </p>
+                </div>
+              ) : (
+                <div className="h-80 rounded-lg overflow-hidden border border-gray-200">
+                  <Viewer seq={sel.seq} seed={seed} />
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader><b>Learn and iterate</b></CardHeader>
-          <CardContent>
-            {rows.length === 0 ? (
-              <div className="text-sm text-gray-600">Run Screen to get rankings and explore hits.</div>
-            ) : (
-              <div className="space-y-2 text-sm">
-                <div><b>Top 5</b></div>
-                <ol className="list-decimal pl-5">
-                  {rows.slice(0,5).map((r)=>(<li key={r.id} className="truncate">{r.seq} - {r.pred.toFixed(1)}</li>))}
-                </ol>
-                <div><b>Hit count</b>: {rows.filter(r=> (r.lab ?? 0) > 120).length} with lab percent above 120</div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Analysis</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {rows.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <p className="text-sm">Run Screen to get rankings and explore hits.</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-2">Top 5 Candidates</h4>
+                    <ol className="list-decimal pl-5 space-y-1 text-sm">
+                      {rows.slice(0,5).map((r)=>(
+                        <li key={r.id} className="font-mono text-xs bg-gray-50 p-2 rounded">
+                          {r.seq} - <span className="font-medium">{r.pred.toFixed(1)}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <div className="pt-3 border-t border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold text-green-600">
+                        {rows.filter(r=> (r.lab ?? 0) > 120).length}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        sequences with lab activity above 120
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
 
-        <TestsPanel />
+          <TestsPanel />
+        </div>
       </div>
     </div>
   )
