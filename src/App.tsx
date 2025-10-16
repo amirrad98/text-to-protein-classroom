@@ -12,7 +12,7 @@ import {
   Filter, 
   FlaskConical, 
   RotateCcw, 
-  Cube,
+  Box,
   Zap,
   TestTube2,
   Beaker
@@ -292,7 +292,7 @@ export default function App(){
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Cube className="h-8 w-8 text-blue-600" />
+            <Box className="h-8 w-8 text-blue-600" />
             Text to Protein
             <span className="text-lg font-normal text-gray-600">- Classroom Demo</span>
           </h1>
@@ -399,7 +399,7 @@ export default function App(){
               {rows.length === 0 ? (
                 <div className="text-center py-12 text-gray-500">
                   <div className="mb-4">
-                    <Cube className="h-12 w-12 mx-auto text-gray-300" />
+                    <Box className="h-12 w-12 mx-auto text-gray-300" />
                   </div>
                   <p className="text-lg font-medium mb-2">No sequences generated yet</p>
                   <p className="text-sm">Click Generate to create candidates, then use Screen to score and sort them.</p>
@@ -474,7 +474,7 @@ export default function App(){
               {!sel ? (
                 <div className="text-center py-12 text-gray-500">
                   <div className="mb-4">
-                    <Cube className="h-12 w-12 mx-auto text-gray-300" />
+                    <Box className="h-12 w-12 mx-auto text-gray-300" />
                   </div>
                   <p className="font-medium mb-2">No sequence selected</p>
                   <p className="text-sm">Click on a sequence to view its 3D structure.</p>
