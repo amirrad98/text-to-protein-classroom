@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Line } from '@react-three/drei'
 import * as THREE from 'three'
@@ -324,20 +324,20 @@ export default function App(){
             <div className="space-y-3">
               <div>
                 <Label>Plain English prompt</Label>
-                <Textarea value={prompt} onChange={e=>setPrompt(e.target.value)} rows={3} />
+                <Textarea value={prompt} onChange={(e: any)=>setPrompt(e.target.value)} rows={3} />
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <div>
                   <Label>Number of candidates</Label>
-                  <Input type="number" value={count} min={1} max={64} onChange={e=>setCount(Number(e.target.value)||0)} />
+                  <Input type="number" value={count} min={1} max={64} onChange={(e: any)=>setCount(Number(e.target.value)||0)} />
                 </div>
                 <div>
                   <Label>Length in amino acids</Label>
-                  <Input type="number" value={lengthAA} min={5} max={200} onChange={e=>setLengthAA(Number(e.target.value)||0)} />
+                  <Input type="number" value={lengthAA} min={5} max={200} onChange={(e: any)=>setLengthAA(Number(e.target.value)||0)} />
                 </div>
                 <div>
                   <Label>Seed for reproducible runs</Label>
-                  <Input type="number" value={seed} onChange={e=>setSeed(Number(e.target.value)||0)} />
+                  <Input type="number" value={seed} onChange={(e: any)=>setSeed(Number(e.target.value)||0)} />
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -441,7 +441,7 @@ export default function App(){
               <div className="space-y-2 text-sm">
                 <div><b>Top 5</b></div>
                 <ol className="list-decimal pl-5">
-                  {rows.slice(0,5).map((r,i)=>(<li key={r.id} className="truncate">{r.seq} - {r.pred.toFixed(1)}</li>))}
+                  {rows.slice(0,5).map((r)=>(<li key={r.id} className="truncate">{r.seq} - {r.pred.toFixed(1)}</li>))}
                 </ol>
                 <div><b>Hit count</b>: {rows.filter(r=> (r.lab ?? 0) > 120).length} with lab percent above 120</div>
               </div>
