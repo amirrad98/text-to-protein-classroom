@@ -127,8 +127,8 @@ export function buildBackbone(seq: string, seed: number): P3[]{
 function MiniBar({ value, max=160 }:{value:number; max?:number}){
   const pct = Math.max(0, Math.min(100, (value/max)*100))
   return (
-    <div className="w-full h-2 bg-gray-100 rounded">
-      <div className="h-2 rounded" style={{ width: pct+'%', background: '#4ade80' }} />
+    <div className="w-full h-2 bg-muted rounded">
+      <div className="h-2 rounded bg-primary" style={{ width: pct+'%' }} />
     </div>
   )
 }
@@ -230,7 +230,7 @@ function TestsPanel(){
             Run Tests
           </Button>
           {lines.length>0 && (
-            <span className={`text-sm font-medium ${allPass ? 'text-green-600' : 'text-red-600'}`}>
+            <span className={`text-sm font-medium ${allPass ? 'text-primary' : 'text-destructive'}`}>
               {allPass ? 'All tests passed' : 'Some tests failed'}
             </span>
           )}
@@ -239,7 +239,7 @@ function TestsPanel(){
           {lines.map((l,i)=>(
             <div 
               key={i} 
-              className={`p-2 rounded-md ${l.startsWith('PASS') ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-800'}`}
+              className={`p-2 rounded-md ${l.startsWith('PASS') ? 'bg-primary/10 text-primary' : 'bg-destructive/10 text-destructive'}`}
             >
               {l}
             </div>
@@ -288,13 +288,13 @@ export default function App(){
   function reset(){ setRows([]); setSel(null) }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Box className="h-8 w-8 text-blue-600" />
+          <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+            <Box className="h-8 w-8 text-primary" />
             Text to Protein
-            <span className="text-lg font-normal text-gray-600">- Classroom Demo</span>
+            <span className="text-lg font-normal text-muted-foreground">- Classroom Demo</span>
           </h1>
         </header>
 
@@ -380,7 +380,7 @@ export default function App(){
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <ol className="list-decimal pl-5 text-sm space-y-2 text-gray-700">
+              <ol className="list-decimal pl-5 text-sm space-y-2 text-muted-foreground">
                 <li>npm create vite@latest text-to-protein -- --template react-ts</li>
                 <li>cd text-to-protein</li>
                 <li>npm i @react-three/fiber @react-three/drei three</li>
@@ -397,9 +397,9 @@ export default function App(){
             </CardHeader>
             <CardContent>
               {rows.length === 0 ? (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-muted-foreground">
                   <div className="mb-4">
-                    <Box className="h-12 w-12 mx-auto text-gray-300" />
+                    <Box className="h-12 w-12 mx-auto text-muted" />
                   </div>
                   <p className="text-lg font-medium mb-2">No sequences generated yet</p>
                   <p className="text-sm">Click Generate to create candidates, then use Screen to score and sort them.</p>
@@ -408,23 +408,23 @@ export default function App(){
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">#</th>
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">Sequence</th>
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">Fold Score</th>
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">Predicted Activity</th>
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">Lab Result</th>
-                        <th className="text-left py-3 px-2 font-medium text-gray-900">Action</th>
+                      <tr className="border-b border-border">
+                        <th className="text-left py-3 px-2 font-medium text-foreground">#</th>
+                        <th className="text-left py-3 px-2 font-medium text-foreground">Sequence</th>
+                        <th className="text-left py-3 px-2 font-medium text-foreground">Fold Score</th>
+                        <th className="text-left py-3 px-2 font-medium text-foreground">Predicted Activity</th>
+                        <th className="text-left py-3 px-2 font-medium text-foreground">Lab Result</th>
+                        <th className="text-left py-3 px-2 font-medium text-foreground">Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rows.map((r,idx)=> (
-                        <tr key={r.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                          <td className="py-3 px-2 text-sm font-medium text-gray-900">{idx+1}</td>
+                        <tr key={r.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+                          <td className="py-3 px-2 text-sm font-medium text-foreground">{idx+1}</td>
                           <td className="py-3 px-2">
                             <button 
                               title="Click to show 3D structure" 
-                              className="font-mono text-sm bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors" 
+                              className="font-mono text-sm bg-muted hover:bg-accent px-2 py-1 rounded transition-colors" 
                               onClick={()=>setSel(r)}
                             >
                               {r.seq}
@@ -449,7 +449,7 @@ export default function App(){
                                 <div className="flex-1"><MiniBar value={r.lab} max={160} /></div>
                               </div>
                             ) : (
-                              <span className="text-gray-400 text-sm">-</span>
+                              <span className="text-muted-foreground text-sm">-</span>
                             )}
                           </td>
                           <td className="py-3 px-2">
@@ -472,18 +472,18 @@ export default function App(){
             </CardHeader>
             <CardContent>
               {!sel ? (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-muted-foreground">
                   <div className="mb-4">
-                    <Box className="h-12 w-12 mx-auto text-gray-300" />
+                    <Box className="h-12 w-12 mx-auto text-muted" />
                   </div>
                   <p className="font-medium mb-2">No sequence selected</p>
                   <p className="text-sm">Click on a sequence to view its 3D structure.</p>
-                  <p className="text-xs mt-2 text-gray-400">
+                  <p className="text-xs mt-2 text-muted-foreground/70">
                     Colors: hydrophobic (black), basic (blue), acidic (red), other (green)
                   </p>
                 </div>
               ) : (
-                <div className="h-80 rounded-lg overflow-hidden border border-gray-200">
+                <div className="h-80 rounded-lg overflow-hidden border border-border">
                   <Viewer seq={sel.seq} seed={seed} />
                 </div>
               )}
@@ -496,27 +496,27 @@ export default function App(){
             </CardHeader>
             <CardContent>
               {rows.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">Run Screen to get rankings and explore hits.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">Top 5 Candidates</h4>
+                    <h4 className="font-medium text-foreground mb-2">Top 5 Candidates</h4>
                     <ol className="list-decimal pl-5 space-y-1 text-sm">
                       {rows.slice(0,5).map((r)=>(
-                        <li key={r.id} className="font-mono text-xs bg-gray-50 p-2 rounded">
+                        <li key={r.id} className="font-mono text-xs bg-muted p-2 rounded">
                           {r.seq} - <span className="font-medium">{r.pred.toFixed(1)}</span>
                         </li>
                       ))}
                     </ol>
                   </div>
-                  <div className="pt-3 border-t border-gray-200">
+                  <div className="pt-3 border-t border-border">
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-green-600">
+                      <span className="text-2xl font-bold text-primary">
                         {rows.filter(r=> (r.lab ?? 0) > 120).length}
                       </span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-muted-foreground">
                         sequences with lab activity above 120
                       </span>
                     </div>
