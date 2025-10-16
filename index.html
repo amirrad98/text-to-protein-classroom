@@ -1,81 +1,158 @@
-<!DOCTYPE html><!DOCTYPE html><!doctype html>
+<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html><!doctype html>
 
 <html lang="en">
 
-<head><html lang="en"><html lang="en">
+<head><html lang="en">
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head>  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><html lang="en"><html lang="en">
 
     <title>Text to Protein - Classroom Demo</title>
 
-    <link rel="stylesheet" href="styles.css">    <meta charset="UTF-8">    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css">    <meta charset="UTF-8">
 
 </head>
 
-<body>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+<body>    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head>  <head>
 
     <div class="container">
 
-        <header class="header">    <title>Text to Protein - Classroom Demo</title>    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <header class="header">    <title>Text to Protein - Classroom Demo</title>
 
             <div class="header-content">
 
-                <h1>🧬 Text to Protein</h1>    <link rel="stylesheet" href="styles.css">    <title>Text to Protein - Classroom Demo</title>
+                <h1>🧬 Text to Protein</h1>    <link rel="stylesheet" href="styles.css">    <meta charset="UTF-8">    <meta charset="UTF-8" />
 
                 <p>Transform text into 3D protein structures</p>
 
-            </div>    <script src="https://unpkg.com/three@0.180.0/build/three.min.js"></script>  </head>
+            </div></head>
 
         </header>
 
-    <script src="https://unpkg.com/three@0.180.0/examples/js/controls/OrbitControls.js"></script>  <body>
+<body>    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
 
         <main class="main">
 
-            <div class="input-section"></head>    <div id="root"></div>
+            <div class="input-section">    <div class="container">
 
                 <div class="card">
 
-                    <h2>Generate Protein</h2><body>    <script type="module" src="/src/main.tsx"></script>
+                    <h2>Generate Protein</h2>        <header class="header">    <title>Text to Protein - Classroom Demo</title>    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
                     <div class="form-group">
 
-                        <label for="textInput">Enter text to convert:</label>    <div class="container">  </body>
+                        <label for="textInput">Enter text to convert:</label>            <div class="header-content">
 
                         <textarea 
 
-                            id="textInput"         <header class="header"></html>
+                            id="textInput"                 <h1>🧬 Text to Protein</h1>    <link rel="stylesheet" href="styles.css">    <title>Text to Protein - Classroom Demo</title>
 
-                            placeholder="Type your text here..."             <div class="header-content">
+                            placeholder="Type your text here..." 
 
-                            rows="4"                <h1>🧬 Text to Protein</h1>
+                            rows="4"                <p>Transform text into 3D protein structures</p>
 
-                        >Hello World</textarea>                <p>Transform text into 3D protein structures</p>
+                        >Hello World</textarea>
 
-                    </div>            </div>
+                    </div>            </div>    <script src="https://unpkg.com/three@0.180.0/build/three.min.js"></script>  </head>
 
-                    <button id="generateBtn" class="btn btn-primary">        </header>
+                    <button id="generateBtn" class="btn btn-primary">
 
-                        Generate Protein
+                        Generate Protein        </header>
 
-                    </button>        <main class="main">
+                    </button>
 
-                </div>            <div class="input-section">
+                </div>    <script src="https://unpkg.com/three@0.180.0/examples/js/controls/OrbitControls.js"></script>  <body>
+
+
+
+                <div class="card">        <main class="main">
+
+                    <h3>Generated Sequence</h3>
+
+                    <div id="proteinSequence" class="sequence-display">            <div class="input-section"></head>    <div id="root"></div>
+
+                        Click "Generate Protein" to see the sequence
+
+                    </div>                <div class="card">
+
+                </div>
+
+            </div>                    <h2>Generate Protein</h2><body>    <script type="module" src="/src/main.tsx"></script>
+
+
+
+            <div class="visualization-section">                    <div class="form-group">
 
                 <div class="card">
 
-                <div class="card">                    <h2>Generate Protein</h2>
+                    <h3>3D Protein Structure</h3>                        <label for="textInput">Enter text to convert:</label>    <div class="container">  </body>
 
-                    <h3>Generated Sequence</h3>                    <div class="form-group">
+                    <div id="proteinViewer" class="viewer"></div>
+
+                    <div class="controls">                        <textarea 
+
+                        <button id="rotateBtn" class="btn btn-secondary">Auto Rotate</button>
+
+                        <button id="resetBtn" class="btn btn-secondary">Reset View</button>                            id="textInput"         <header class="header"></html>
+
+                    </div>
+
+                </div>                            placeholder="Type your text here..."             <div class="header-content">
+
+            </div>
+
+                            rows="4"                <h1>🧬 Text to Protein</h1>
+
+            <div class="tests-section">
+
+                <div class="card">                        >Hello World</textarea>                <p>Transform text into 3D protein structures</p>
+
+                    <h3>Test Cases</h3>
+
+                    <div class="test-grid">                    </div>            </div>
+
+                        <button class="test-btn" data-text="Hello">Hello</button>
+
+                        <button class="test-btn" data-text="Science">Science</button>                    <button id="generateBtn" class="btn btn-primary">        </header>
+
+                        <button class="test-btn" data-text="DNA">DNA</button>
+
+                        <button class="test-btn" data-text="Protein">Protein</button>                        Generate Protein
+
+                        <button class="test-btn" data-text="Biology">Biology</button>
+
+                        <button class="test-btn" data-text="Chemistry">Chemistry</button>                    </button>        <main class="main">
+
+                    </div>
+
+                </div>                </div>            <div class="input-section">
+
+            </div>
+
+        </main>                <div class="card">
+
+
+
+        <footer class="footer">                <div class="card">                    <h2>Generate Protein</h2>
+
+            <p>Built with ❤️ for educational purposes</p>
+
+        </footer>                    <h3>Generated Sequence</h3>                    <div class="form-group">
+
+    </div>
 
                     <div id="proteinSequence" class="sequence-display">                        <label for="textInput">Enter text to convert:</label>
 
-                        Click "Generate Protein" to see the sequence                        <textarea 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-                    </div>                            id="textInput" 
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>                        Click "Generate Protein" to see the sequence                        <textarea 
 
+    <script src="script.js"></script>
+
+</body>                    </div>                            id="textInput" 
+
+</html>
                 </div>                            placeholder="Type your text here..." 
 
             </div>                            rows="4"
